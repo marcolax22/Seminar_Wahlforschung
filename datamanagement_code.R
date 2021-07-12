@@ -28,8 +28,12 @@ ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
                                              Unter_18 = jhhchild18,
                                              Wahlbeteiligung_2013 = j60_2,
                                              Wahlbeteiligung_2017 = n60_2)
+#dealing with NA-------------------------------------------------------------------
 
-#preparing the data set: ZA5770_Birthmonth.dta------------------------------------
+na_strings <- c("-95", "-99", "-97")
+ZA5770.prepare <- ZA5770.prepare %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
+
+#preparing the data set: ZA5770_Birthmonth.dta-------------------------------------
 
 ZA5770_birth.prepare <- ZA5770_birth %>% 
   select(lfdn, jmonat, kmonat, lmonat,mmonat, nmonat)
@@ -47,11 +51,11 @@ ZA5770_birth.prepare$monat <- ifelse(ZA5770_birth.prepare$jmonat >
 
 ZA5770_birth.prepare <- ZA5770_birth.prepare %>% select(lfdn,monat)
 
-#joining the datasets-------------------------------------------------------------
+#joining the datasets--------------------------------------------------------------
 
 ZA5770_full <- full_join(ZA5770.prepare, ZA5770_birth.prepare, by = "lfdn", na_matches = "never")
 
-#joining month and year-----------------------------------------------------------
+#joining month and year------------------------------------------------------------
 
 ZA5770_full$jahr <- as_factor(ZA5770_full$jahr)
 
@@ -59,7 +63,15 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
   mutate(month_year = as.Date(month_year))
 
-#Imputation for the data set: ZA5770_Birthmonth.dta-------------------------------
+#Imputation for the data set: ZA5770_Birthmonth.dta--------------------------------
 
-ZA5770_full$tag <- sample(1:31, 5456, replace=T)
+#ZA5770_full$tag <- sample(1:28, 5456, replace=T)
+
+#dataset for RDD-------------------------------------------------------------------
+
+#ZA_RDD <- ZA5770_full %>% select(Unter_18,PID_2013)
+                                   
+#Saving the data set---------------------------------------------------------------
+
+save(ZA5770_full, file = "data/ZA5770_full.RData")
 
