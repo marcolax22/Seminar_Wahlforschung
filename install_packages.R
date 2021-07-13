@@ -4,7 +4,7 @@
 suppressWarnings(if (!require("pacman")) install.packages("pacman"))
 
 # load packages and install if not installed --------------------------------------------
-pacman::p_load(tidyverse, haven, naniar, lubridate, zoo,
+pacman::p_load(tidyverse, haven, naniar, lubridate, zoo, 
                install = TRUE,
                update = FALSE)
 

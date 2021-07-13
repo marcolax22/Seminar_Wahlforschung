@@ -31,7 +31,9 @@ ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
 #dealing with NA-------------------------------------------------------------------
 
 na_strings <- c("-95", "-99", "-97")
-ZA5770.prepare <- ZA5770.prepare %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
+
+ZA5770.prepare <- ZA5770.prepare %>% 
+  replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
 
 #preparing the data set: ZA5770_Birthmonth.dta-------------------------------------
 
@@ -63,15 +65,22 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
   mutate(month_year = as.Date(month_year))
 
-#Imputation for the data set: ZA5770_Birthmonth.dta--------------------------------
+#Randomization for the day of birth------------------------------------------------
 
 #ZA5770_full$tag <- sample(1:28, 5456, replace=T)
 
+
+
+
+
+
+
+
 #dataset for RDD-------------------------------------------------------------------
 
-#ZA_RDD <- ZA5770_full %>% select(Unter_18,PID_2013)
+ZA_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01")
                                    
 #Saving the data set---------------------------------------------------------------
 
-save(ZA5770_full, file = "data/ZA5770_full.RData")
+save(ZA_RDD, file = "data/ZA_RDD.RData")
 
