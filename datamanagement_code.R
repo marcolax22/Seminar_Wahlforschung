@@ -69,16 +69,16 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
 
 #ZA5770_full$tag <- sample(1:28, 5456, replace=T)
 
+#Saving the data set with merged data----------------------------------------------
 
-
-
-
-
-
+save(ZA5770_full, file = "data/ZA5770_full.RData")
 
 #dataset for RDD-------------------------------------------------------------------
 
+load("data/ZA5770_full.RData")
+
 ZA_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01")
+ZA_RDD2 <- ZA5770_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
                                    
 #Saving the data set---------------------------------------------------------------
 

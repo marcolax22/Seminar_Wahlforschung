@@ -14,8 +14,7 @@ load("data/ZA_RDD.RData")
 
 dates_vline <- as.Date(c("1995-09-01"))           
 dates_vline <- which(ZA_RDD$month_year %in% dates_vline)
-
-
+  
 #Graphic of the RDD Design----------------------------------------------------------
 test <- ggplot(ZA_RDD, mapping = aes(x=month_year, y=PID_2013)) +
         geom_point(size = 0.75, alpha = 0.5) +
@@ -26,3 +25,17 @@ test + scale_x_date(date_labels = "%m-%Y") +
   labs(x = "Date of Birth", y = "Party Identification") +
   theme_classic()
  
+#RDD Design 2------------------------------------------------------------------------
+
+dates_vline <- as.Date(c("1991-09-01"))           
+dates_vline <- which(ZA_RDD2$month_year %in% dates_vline)
+
+#Graphic of the RDD Design 2----------------------------------------------------------
+test <- ggplot(ZA_RDD2, mapping = aes(x=month_year, y=PID_2013)) +
+  geom_point(size = 0.75, alpha = 0.5) +
+  geom_smooth(color = "black")
+
+test + scale_x_date(date_labels = "%m-%Y") + 
+  geom_vline(xintercept = as.numeric(ZA_RDD2$month_year[dates_vline]), col = "black", lwd = 1) +
+  labs(x = "Date of Birth", y = "Party Identification") +
+  theme_classic()
