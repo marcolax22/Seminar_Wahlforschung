@@ -2,13 +2,14 @@
 
 library(tidyverse)
 #library(broom)
-#library(rdrobust)
+library(rdrobust)
 #library(modelsummary)
 #library(rddensity)
 
 #import data set-------------------------------------------------------------------
 
 load("data/ZA_RDD.RData")
+load("data/ZA_RDD2.RData")
 
 #RDD Design------------------------------------------------------------------------
 
@@ -39,3 +40,10 @@ test + scale_x_date(date_labels = "%m-%Y") +
   geom_vline(xintercept = as.numeric(ZA_RDD2$month_year[dates_vline]), col = "black", lwd = 1) +
   labs(x = "Date of Birth", y = "Party Identification") +
   theme_classic()
+
+#Regression-------------------------------------------------------------------------
+
+reg <- rdrobust::rdbwselect(y = ZA_RDD$PID_2013,
+                            x = ZA_RDD$month_year,
+                            c = ZA_RDD$Unter_18,
+                            all = TRUE)

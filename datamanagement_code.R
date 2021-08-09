@@ -1,4 +1,4 @@
-#loading all packages--------------------------------------------------
+#loading all packages--------------------------------------------------------------
 
 library(tidyverse)
 library(haven)
@@ -16,7 +16,7 @@ ZA5770_birth <- read_dta(file.path("data", "ZA5770_Birthmonth.dta"))
 ZA5770.prepare <- ZA5770 %>% select(lfdn, j, k, l, m, n, jahr, jhhchild18, j60_2, n60_2,
                             j65a, j65b, j64a, j64b, m65a, m65b, m64a, m64b, j69a, n69a,
                             j69b, n69b, j70a, j70b, n70a, n70b, 
-                            jpidstrk, npidstrk)
+                            jpidstrk, npidstrk, jpid_a, jpid_b, lfdn_lfp09)
 
 ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
                                              PID_2017 = npidstrk,
@@ -28,12 +28,6 @@ ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
                                              Unter_18 = jhhchild18,
                                              Wahlbeteiligung_2013 = j60_2,
                                              Wahlbeteiligung_2017 = n60_2)
-#dealing with NA-------------------------------------------------------------------
-
-na_strings <- c("-95", "-99", "-97")
-
-ZA5770.prepare <- ZA5770.prepare %>% 
-  replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
 
 #preparing the data set: ZA5770_Birthmonth.dta-------------------------------------
 
@@ -79,8 +73,37 @@ load("data/ZA5770_full.RData")
 
 ZA_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01")
 ZA_RDD2 <- ZA5770_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
-                                   
+
+#preparing the dataset for RDD and RDD2--------------------------------------------
+
+class(ZA_RDD$jpid_a)
+ZA_RDD$jpid_a <- as.numeric(ZA_RDD$jpid_a)
+ZA_RDD$PID_2013 <- as.numeric(ZA_RDD$PID_2013)
+
+na_strings <- c("-97")
+
+ZA_RDD <- ZA_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
+
+ZA_RDD$PID_2013[is.na(ZA_RDD$PID_2013)] = 0    
+
+#-----------------------
+
+ZA_RDD2$PID_2013 <- as.numeric(ZA_RDD2$PID_2013)
+
+na_strings <- c("-97")
+
+ZA_RDD2 <- ZA_RDD2 %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
+
+ZA_RDD2$PID_2013[is.na(ZA_RDD2$PID_2013)] = 0  
+
+#---------------------------------------------------------------------------------
+
+ZA_RDD <- ZA_RDD %>% 
+
+
+
+
 #Saving the data set---------------------------------------------------------------
 
 save(ZA_RDD, file = "data/ZA_RDD.RData")
-
+save(ZA_RDD2, file= "data/ZA_RDD2.RData")
