@@ -1,4 +1,4 @@
-# Seminar_Wahlforschung
+# Vertiefungsseminar Wahlforschung bei Prof. Shikano
 
 Hier wird der Code für die Seminararbeit: Entwicklung der Parteiidentifizierung bei Erstwählern im deutschen Mehrparteiensystem, zur Verfügung gestellt.
 
