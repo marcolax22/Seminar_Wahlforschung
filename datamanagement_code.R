@@ -6,10 +6,28 @@ library(naniar)
 library(lubridate)
 library(zoo)
 
+
+###################################################################################
+
 #read in the data------------------------------------------------------------------
 
 ZA5770 <- read_dta(file.path("data", "ZA5770.dta"))
+ZA5320 <- read_dta(file.path("data","ZA5320.dta"))
+ZA5321 <- read_dta(file.path("data","ZA5321.dta"))
+ZA5322 <- read_dta(file.path("data","ZA5322.dta"))
+
+#read in the data of birthmonths---------------------------------------------------
+
 ZA5770_birth <- read_dta(file.path("data", "ZA5770_Birthmonth.dta"))
+ZA5320_birth <- read_dta(file.path("data","20210830_Shikano_ZA5320_v2-0-0.dta"))
+ZA5321_birth <- read_dta(file.path("data","20210830_Shikano_ZA5321_v2-1-0.dta"))
+ZA5322_birth <- read_dta(file.path("data","20210830_Shikano_ZA5322_v1-1-0.dta"))
+
+###################################################################################
+
+
+
+###################################################################################
 
 #preparing the data set: ZA5770.dta------------------------------------------------
 
@@ -29,7 +47,16 @@ ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
                                              Wahlbeteiligung_2013 = j60_2,
                                              Wahlbeteiligung_2017 = n60_2)
 
-#preparing the data set: ZA5770_Birthmonth.dta-------------------------------------
+#preparing the data set: ZA5320.dta------------------------------------------------
+
+
+#preparing the data set: ZA5321.dta------------------------------------------------
+
+
+#preparing the data set: ZA5322.dta------------------------------------------------
+
+
+#preparing the data set: ZA5770_birth----------------------------------------------
 
 ZA5770_birth.prepare <- ZA5770_birth %>% 
   select(lfdn, jmonat, kmonat, lmonat,mmonat, nmonat)
@@ -47,7 +74,24 @@ ZA5770_birth.prepare$monat <- ifelse(ZA5770_birth.prepare$jmonat >
 
 ZA5770_birth.prepare <- ZA5770_birth.prepare %>% select(lfdn,monat)
 
-#joining the datasets--------------------------------------------------------------
+#preparing the data set: ZA5320_birth----------------------------------------------
+
+
+#preparing the data set: ZA5321_birth----------------------------------------------
+
+
+#preapring the data set: ZA5322_birth----------------------------------------------
+
+###################################################################################
+
+
+
+
+
+
+###################################################################################
+
+#joining the data set ZA5770 and 5770_birth----------------------------------------
 
 ZA5770_full <- full_join(ZA5770.prepare, ZA5770_birth.prepare, by = "lfdn", na_matches = "never")
 
@@ -59,13 +103,47 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
   mutate(month_year = as.Date(month_year))
 
-#Randomization for the day of birth------------------------------------------------
 
-#ZA5770_full$tag <- sample(1:28, 5456, replace=T)
+#joining data set ZA5320 and ZA5320_birth------------------------------------------
 
-#Saving the data set with merged data----------------------------------------------
+#joining month and year------------------------------------------------------------
+
+
+#joining data set ZA5321 and ZA5321_birth------------------------------------------
+
+#joining month and year------------------------------------------------------------
+
+
+#joining ZA5322 and ZA5322_birth---------------------------------------------------
+
+#joining month and year------------------------------------------------------------
+
+###################################################################################
+
+
+
+
+###################################################################################
+
+#Saving the data set with merged data ZA5770---------------------------------------
 
 save(ZA5770_full, file = "data/ZA5770_full.RData")
+
+#Saving the data set with merged data ZA5320
+
+#Saving the data set with merged data ZA5321
+
+#Saving the data set with merged data ZA5322
+
+###################################################################################
+
+
+
+
+
+
+
+###################################################################################
 
 #dataset for RDD-------------------------------------------------------------------
 
@@ -98,12 +176,20 @@ ZA_RDD2$PID_2013[is.na(ZA_RDD2$PID_2013)] = 0
 
 #---------------------------------------------------------------------------------
 
-ZA_RDD <- ZA_RDD %>% 
+###################################################################################
 
 
 
+
+
+###################################################################################
 
 #Saving the data set---------------------------------------------------------------
 
 save(ZA_RDD, file = "data/ZA_RDD.RData")
 save(ZA_RDD2, file= "data/ZA_RDD2.RData")
+
+###################################################################################
+
+
+
