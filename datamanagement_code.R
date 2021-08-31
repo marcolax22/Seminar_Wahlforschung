@@ -31,21 +31,22 @@ ZA5322_birth <- read_dta(file.path("data","20210830_Shikano_ZA5322_v1-1-0.dta"))
 
 #preparing the data set: ZA5770.dta------------------------------------------------
 
-ZA5770.prepare <- ZA5770 %>% select(lfdn, j, k, l, m, n, jahr, jhhchild18, j60_2, n60_2,
+ZA5770 <- ZA5770 %>% select(lfdn, j, k, l, m, n, jahr, jhhchild18, j60_2, n60_2,
                             j65a, j65b, j64a, j64b, m65a, m65b, m64a, m64b, j69a, n69a,
                             j69b, n69b, j70a, j70b, n70a, n70b, 
                             jpidstrk, npidstrk, jpid_a, jpid_b, lfdn_lfp09)
 
-ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
-                                             PID_2017 = npidstrk,
-                                             Teilnahme_2013 = j,
-                                             Teilnahme_2014 = k,
-                                             Teilnahme_2015 = l,
-                                             Teilnahme_2016 = m,
-                                             Teilnahme_2017 = n,
-                                             Unter_18 = jhhchild18,
-                                             Wahlbeteiligung_2013 = j60_2,
-                                             Wahlbeteiligung_2017 = n60_2)
+
+ZA5770 <- ZA5770 %>% rename(PID_2013 = jpidstrk,
+                            PID_2017 = npidstrk,
+                            Teilnahme_2013 = j,
+                            Teilnahme_2014 = k,
+                            Teilnahme_2015 = l,
+                            Teilnahme_2016 = m,
+                            Teilnahme_2017 = n,
+                            Unter_18 = jhhchild18,
+                            Wahlbeteiligung_2013 = j60_2,
+                            Wahlbeteiligung_2017 = n60_2)
 
 #preparing the data set: ZA5320.dta------------------------------------------------
 
@@ -58,29 +59,62 @@ ZA5770.prepare <-  ZA5770.prepare %>% rename(PID_2013 = jpidstrk,
 
 #preparing the data set: ZA5770_birth----------------------------------------------
 
-ZA5770_birth.prepare <- ZA5770_birth %>% 
+ZA5770_birth <- ZA5770_birth %>% 
   select(lfdn, jmonat, kmonat, lmonat,mmonat, nmonat)
 
-ZA5770_birth.prepare$monat <- ifelse(ZA5770_birth.prepare$jmonat > 
-                                       -95, ZA5770_birth.prepare$jmonat,
-                              ifelse(ZA5770_birth.prepare$kmonat > 
-                                       -95, ZA5770_birth.prepare$kmonat,
-                              ifelse(ZA5770_birth.prepare$lmonat > 
-                                       -95, ZA5770_birth.prepare$lmonat,
-                              ifelse(ZA5770_birth.prepare$mmonat > 
-                                       -95, ZA5770_birth.prepare$mmonat,
-                              ifelse(ZA5770_birth.prepare$nmonat > 
-                                       -95, ZA5770_birth.prepare$nmonat, NA)))))
+ZA5770_birth$monat <- ifelse(ZA5770_birth$jmonat > 
+                               -95, ZA5770_birth$jmonat,
+                             ifelse(ZA5770_birth$kmonat > 
+                                      -95, ZA5770_birth$kmonat,
+                                    ifelse(ZA5770_birth$lmonat > 
+                                             -95, ZA5770_birth$lmonat,
+                                           ifelse(ZA5770_birth$mmonat > 
+                                                    -95, ZA5770_birth$mmonat,
+                                                  ifelse(ZA5770_birth$nmonat > 
+                                                           -95, ZA5770_birth$nmonat, NA)))))
 
-ZA5770_birth.prepare <- ZA5770_birth.prepare %>% select(lfdn,monat)
+ZA5770_birth <- ZA5770_birth %>% select(lfdn,monat)
 
 #preparing the data set: ZA5320_birth----------------------------------------------
 
+ZA5320_birth <- ZA5320_birth %>% 
+  select(id, cmonat, dmonat, emonat)
+
+ZA5320_birth$monat <- ifelse(ZA5320_birth$cmonat,
+                             ifelse(ZA5320_birth$dmonat,
+                                    ifelse(ZA5320_birth$emonat, NA)))
+
+ZA5770_birth <- ZA5770_birth %>% select(lfdn,monat)
 
 #preparing the data set: ZA5321_birth----------------------------------------------
 
+ZA5321_birth <- ZA5321_birth %>% 
+  select(lfdn, dmonat, emonat, fmonat, jmonat)
+
+ZA5321_birth$monat <- ifelse(ZA5321_birth$dmonat < 
+                               13, ZA5321_birth$dmonat,
+                             ifelse(ZA5321_birth$emonat < 
+                                      13, ZA5321_birth$emonat,
+                                    ifelse(ZA5321_birth$fmonat <
+                                             13, ZA5321_birth$fmonat,
+                                           ifelse(ZA5321_birth$jmonat < 
+                                                    13, ZA5321_birth$jmonat, NA))))
+
+ZA5321_birth <- ZA5321_birth %>% select(lfdn,monat)
 
 #preapring the data set: ZA5322_birth----------------------------------------------
+
+ZA5322_birth <- ZA5322_birth %>% 
+  select(lfdn, fmonat, gmonat, jmonat)
+
+ZA5322_birth$monat <- ifelse(ZA5322_birth$fmonat < 
+                               13, ZA5322_birth$fmonat,
+                             ifelse(ZA5322_birth$gmonat < 
+                                      13, ZA5322_birth$gmonat,
+                                    ifelse(ZA5322_birth$jmonat < 
+                                             13, ZA5322_birth$jmonat, NA)))
+
+ZA5322_birth <- ZA5322_birth %>% select(lfdn,monat)
 
 ###################################################################################
 
@@ -104,9 +138,14 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
   mutate(month_year = as.Date(month_year))
 
 
+
+
 #joining data set ZA5320 and ZA5320_birth------------------------------------------
 
 #joining month and year------------------------------------------------------------
+
+
+
 
 
 #joining data set ZA5321 and ZA5321_birth------------------------------------------
@@ -114,9 +153,16 @@ ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>%
 #joining month and year------------------------------------------------------------
 
 
+
+
+
 #joining ZA5322 and ZA5322_birth---------------------------------------------------
 
 #joining month and year------------------------------------------------------------
+
+
+
+
 
 ###################################################################################
 
