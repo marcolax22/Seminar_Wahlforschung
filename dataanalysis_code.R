@@ -1,15 +1,27 @@
 #loading packages------------------------------------------------------------------
 
 library(tidyverse)
-#library(broom)
 library(rdrobust)
 #library(modelsummary)
 #library(rddensity)
+#library(broom)
+
+###################################################################################
 
 #import data set-------------------------------------------------------------------
 
-load("data/ZA_RDD.RData")
-load("data/ZA_RDD2.RData")
+load("data/ZA5770_RDD.RData")
+load("data/ZA5770_RDD2.RData")
+load("data/ZA5320_RDD.RData")
+load("data/ZA5321_RDD.RData")
+load("data/ZA5322_RDD.RData")
+
+###################################################################################
+
+
+
+
+###################################################################################
 
 #RDD Design------------------------------------------------------------------------
 
@@ -40,6 +52,35 @@ test + scale_x_date(date_labels = "%m-%Y") +
   geom_vline(xintercept = as.numeric(ZA_RDD2$month_year[dates_vline]), col = "black", lwd = 1) +
   labs(x = "Date of Birth", y = "Party Identification") +
   theme_classic()
+
+###################################################################################
+
+
+
+
+###################################################################################
+
+#RDD Design PID_2005---------------------------------------------------------------
+
+dates_vline <- as.Date(c("1995-09-01"))           
+dates_vline <- which(ZA_RDD$month_year %in% dates_vline)
+
+#Graphic of the RDD Design----------------------------------------------------------
+test <- ggplot(ZA_RDD, mapping = aes(x=month_year, y=PID_2013)) +
+  geom_point(size = 0.75, alpha = 0.5) +
+  geom_smooth(color = "black")
+
+test + scale_x_date(date_labels = "%m-%Y") + 
+  geom_vline(xintercept = as.numeric(ZA_RDD$month_year[dates_vline]), col = "black", lwd = 1) +
+  labs(x = "Date of Birth", y = "Party Identification") +
+  theme_classic()
+
+###################################################################################
+
+
+
+
+###################################################################################
 
 #Regression-------------------------------------------------------------------------
 
