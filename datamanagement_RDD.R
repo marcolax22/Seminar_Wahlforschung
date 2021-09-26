@@ -9,90 +9,99 @@ library(zoo)
 ###################################################################################
 
 load("data/ZA5770_full.RData")
-
-#dataset for RDD-------------------------------------------------------------------
-
-ZA5770_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01")
-ZA5770_RDD2 <- ZA5770_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
-
-#preparing the dataset for RDD and RDD2--------------------------------------------
-
-class(ZA5770_RDD$jpid_a)
-ZA5770_RDD$jpid_a <- as.numeric(ZA5770_RDD$jpid_a)
-ZA5770_RDD$PID_2013 <- as.numeric(ZA5770_RDD$PID_2013)
-
-na_strings <- c("-97")
-
-ZA5770_RDD <- ZA5770_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
-
-ZA5770_RDD$PID_2013[is.na(ZA5770_RDD$PID_2013)] = 0    
-
-#-----------------------
-
-ZA5770_RDD2$PID_2013 <- as.numeric(ZA5770_RDD2$PID_2013)
-
-na_strings <- c("-97")
-
-ZA5770_RDD2 <- ZA5770_RDD2 %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
-
-ZA5770_RDD2$PID_2013[is.na(ZA5770_RDD2$PID_2013)] = 0  
-
-#Change date into figures----------------------------------------------------------
-
-ZA5770_RDD <- ZA5770_RDD %>% select(lfdn, month_year, PID_2013)
-
-ZA5770_RDD <- ZA5770_RDD %>%  if(ZA5770_RDD$month_year = "1995-08-01")
-  
-  
-  ifelse(ZA5322_birth$fmonat < 
-                                       13, ZA5322_birth$fmonat,
-                                     ifelse(ZA5322_birth$gmonat < 
-                                              13, ZA5322_birth$gmonat,
-                                            ifelse(ZA5322_birth$jmonat < 
-                                                     13, ZA5322_birth$jmonat, NA)))
-
-###################################################################################
-
-
-
-
-###################################################################################
-
 load("data/ZA5320_full.RData")
+load("data/ZA5321_full.RData")
+load("data/ZA5322_full.RData")
+
+###################################################################################
+
+
+
+
+###################################################################################
+
+#dataset for PID_2013--------------------------------------------------------------
+
+ZA5770_RDD <- ZA5770_full %>%
+  select(lfdn, month_year, PID_2013) %>%
+  mutate(
+    PID = case_when(
+      PID_2013 == 1 ~ "1",
+      PID_2013 == 2 ~ "2",
+      PID_2013 == 3 ~ "3",
+      PID_2013 == 4 ~ "4",
+      PID_2013 == 5 ~ "5",
+      PID_2013 == -97 ~ "0"))
+
+ZA5770_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01" & month_year <= "1999-01-01")
+
+#dataset for PID_2017--------------------------------------------------------------
+
+ZA5770_RDD2 <- ZA5770_full %>%
+  select(lfdn, month_year, PID_2017) %>%
+  mutate(
+    PID = case_when(
+      PID_2017 == 1 ~ "1",
+      PID_2017 == 2 ~ "2",
+      PID_2017 == 3 ~ "3",
+      PID_2017 == 4 ~ "4",
+      PID_2017 == 5 ~ "5",
+      PID_2017 == -97 ~ "0"))  
+
+ZA5770_RDD2 <- ZA5770_RDD2 %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
+  
+###################################################################################
+
+
+
+
+###################################################################################
+
+#dataset for RDD PID_2002----------------------------------------------------------
+
+ZA5320_RDD2 <- ZA5320_full %>%
+  select(lfdn, month_year, PID_2002) %>%
+  mutate(
+    PID = case_when(
+      PID_2002 == 1 ~ "1",
+      PID_2002 == 2 ~ "2",
+      PID_2002 == 3 ~ "3",
+      PID_2002 == 4 ~ "4",
+      PID_2002 == 5 ~ "5",
+      PID_2002 == -97 ~ "0"))  
+
+ZA5320_RDD <- ZA5320_full %>% filter(month_year >= "1982-01-01" & month_year <= "1986-01-01")
 
 #dataset for RDD PID_2005----------------------------------------------------------
 
+ZA5320_RDD2 <- ZA5321_full %>%
+  select(lfdn, month_year, PID_2005) %>%
+  mutate(
+    PID = case_when(
+      PID_2005 == 1 ~ "1",
+      PID_2005 == 2 ~ "2",
+      PID_2005 == 3 ~ "3",
+      PID_2005 == 4 ~ "4",
+      PID_2005 == 5 ~ "5",
+      PID_2005 == -97 ~ "0")) 
+
 ZA5320_RDD <- ZA5320_full %>% filter(month_year >= "1984-01-01" & month_year <= "1988-01-01")
-
-#preparing the dataset for RDD PID_2005--------------------------------------------
-
-#class(ZA5320_RDD$jpid_a)
-#ZA5320_RDD$jpid_a <- as.numeric(ZA5320_RDD$jpid_a)
-ZA5320_RDD$PID_2005 <- as.numeric(ZA5320_RDD$PID_2005)
-
-na_strings <- c("-97")
-
-ZA5320_RDD <- ZA5320_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) > 5))
-
-ZA5320_RDD$PID_2005[is.na(ZA5320_RDD$PID_2005)] = 0    
-
 
 #dataset for RDD PID_2009----------------------------------------------------------
 
+ZA5320_RDD2 <- ZA5320_full %>%
+  select(lfdn, month_year, PID_2002) %>%
+  mutate(
+    PID = case_when(
+      PID_2009 == 1 ~ "1",
+      PID_2009 == 2 ~ "2",
+      PID_2009 == 3 ~ "3",
+      PID_2009 == 4 ~ "4",
+      PID_2009 == 5 ~ "5",
+      PID_2009 == -97 ~ "0")) 
+
 ZA55320_RDD <- ZA5320_full %>% filter(month_year >= "1989-01-01" & month_year <= "1995-01-01")
 
-#preparing the dataset for RDD PID_2009--------------------------------------------
-
-#class(ZA5320_RDD$jpid_a)
-#ZA5320_RDD$jpid_a <- as.numeric(ZA5320_RDD$jpid_a)
-ZA5320_RDD$PID_2009 <- as.numeric(ZA5320_RDD$PID_2009)
-
-na_strings <- c("-97")
-
-ZA5320_RDD <- ZA5320_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
-
-ZA5320_RDD$PID_2009[is.na(ZA5320_RDD$PID_2009)] = 0    
-
 ###################################################################################
 
 
@@ -100,22 +109,65 @@ ZA5320_RDD$PID_2009[is.na(ZA5320_RDD$PID_2009)] = 0
 
 ###################################################################################
 
-load("data/ZA5321_full.RData")
+#dataset for RDD PID_2005----------------------------------------------------------
+
+ZA5321_RDD <- ZA5321_full %>%
+  select(lfdn, month_year, PID_2005) %>%
+  mutate(
+    PID = case_when(
+      PID_2005 == 1 ~ "1",
+      PID_2005 == 2 ~ "2",
+      PID_2005 == 3 ~ "3",
+      PID_2005 == 4 ~ "4",
+      PID_2005 == 5 ~ "5",
+      PID_2005 == -97 ~ "0"))
 
 ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
+
+#dataset for RDD PID_2007----------------------------------------------------------
+
+ZA5321_RDD <- ZA5321_full %>%
+  select(lfdn, month_year, PID_2007) %>%
+  mutate(
+    PID = case_when(
+      PID_2007 == 1 ~ "1",
+      PID_2007 == 2 ~ "2",
+      PID_2007 == 3 ~ "3",
+      PID_2007 == 4 ~ "4",
+      PID_2007 == 5 ~ "5",
+      PID_2007 == -97 ~ "0"))
+
 ZA5321_RDD2 <- ZA5321_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
 
-#preparing the dataset for RDD and RDD2--------------------------------------------
+#dataset for RDD PID_2009----------------------------------------------------------
 
-#class(ZA5321_RDD$jpid_a)
-#ZA5321_RDD$jpid_a <- as.numeric(ZA5321_RDD$jpid_a)
-ZA5321_RDD$PID_2013 <- as.numeric(ZA5321_RDD$PID_2013)
+ZA5321_RDD <- ZA5321_full %>%
+  select(lfdn, month_year, PID_2009) %>%
+  mutate(
+    PID = case_when(
+      PID_2009 == 1 ~ "1",
+      PID_2009 == 2 ~ "2",
+      PID_2009 == 3 ~ "3",
+      PID_2009 == 4 ~ "4",
+      PID_2009 == 5 ~ "5",
+      PID_2009 == -97 ~ "0"))
 
-na_strings <- c("-97")
+ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
 
-ZA5321_RDD <- ZA5321_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
+#dataset for RDD PID_2013----------------------------------------------------------
 
-ZA5321_RDD$PID_2013[is.na(ZA5321_RDD$PID_2013)] = 0  
+ZA5321_RDD <- ZA5321_full %>%
+  select(lfdn, month_year, PID_2013) %>%
+  mutate(
+    PID = case_when(
+      PID_2013 == 1 ~ "1",
+      PID_2013 == 2 ~ "2",
+      PID_2013 == 3 ~ "3",
+      PID_2013 == 4 ~ "4",
+      PID_2013 == 5 ~ "5",
+      PID_2013 == -97 ~ "0"))
+
+ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
 
 ###################################################################################
 
@@ -124,22 +176,49 @@ ZA5321_RDD$PID_2013[is.na(ZA5321_RDD$PID_2013)] = 0
 
 ###################################################################################
 
-load("data/ZA5322_full.RData")
+#dataset for RDD PID_2011----------------------------------------------------------
+
+ZA5322_RDD <- ZA5322_full %>%
+  select(lfdn, month_year, PID_2011) %>%
+  mutate(
+    PID = case_when(
+      PID_2011 == 1 ~ "1",
+      PID_2011 == 2 ~ "2",
+      PID_2011 == 3 ~ "3",
+      PID_2011 == 4 ~ "4",
+      PID_2011 == 5 ~ "5",
+      PID_2011 == -97 ~ "0"))
 
 ZA5322_RDD <- ZA5322_full %>% filter(month_year >= "1992-01-01")
+
+#dataset for RDD PID_2013----------------------------------------------------------
+
+ZA5322_RDD <- ZA5322_full %>%
+  select(lfdn, month_year, PID_2011) %>%
+  mutate(
+    PID = case_when(
+      PID_2013 == 1 ~ "1",
+      PID_2013 == 2 ~ "2",
+      PID_2013 == 3 ~ "3",
+      PID_2013 == 4 ~ "4",
+      PID_2013 == 5 ~ "5",
+      PID_2013 == -97 ~ "0"))
+
 ZA322_RDD2 <- ZA5322_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
 
-#preparing the dataset for RDD and RDD2--------------------------------------------
+###################################################################################
 
-class(ZA5322_RDD$jpid_a)
-ZA5322_RDD$jpid_a <- as.numeric(ZA5322_RDD$jpid_a)
-ZA5322_RDD$PID_2013 <- as.numeric(ZA5322_RDD$PID_2013)
 
-na_strings <- c("-97")
 
-ZA5322_RDD <- ZA55322_RDD %>% replace_with_na_all(condition = ~ .x %in% na_strings |(as.integer(.x) < 0))
 
-ZA5322_RDD$PID_2013[is.na(ZA5322_RDD$PID_2013)] = 0  
+###################################################################################
+
+#Joining the different datasets
+
+
+
+
+
 
 ###################################################################################
 
@@ -159,18 +238,5 @@ save(ZA5320_RDD, file = "data/ZA5320_RDD.RData")
 save(ZA5321_RDD, file = "data/ZA53201_RDD.RData")
 
 save(ZA5322_RDD, file = "data/ZA5322_RDD.RData")
-
-###################################################################################
-
-
-
-
-###################################################################################
-
-#Joining the different datasets
-
-
-
-
 
 ###################################################################################

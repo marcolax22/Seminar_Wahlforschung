@@ -6,7 +6,6 @@ library(naniar)
 library(lubridate)
 library(zoo)
 
-
 ###################################################################################
 
 #read in the data------------------------------------------------------------------
@@ -51,14 +50,11 @@ ZA5770 <- ZA5770 %>% rename(PID_2013 = jpidstrk,
 
 #preparing the data set: ZA5320.dta------------------------------------------------
 
-ZA5320 <- ZA5320 %>% select(id, cjahr, cpid, cpidstrk, dpid, dpidstrk, epid, epidstrk)
+ZA5320 <- ZA5320 %>% select(id, cjahr, cpidstrk, dpidstrk, epidstrk)
 
 ZA5320 <- ZA5320 %>% rename(lfdn = id,
-                            pid_2002 = cpid,
                             PID_2002 = cpidstrk,
-                            pid_2005 = dpid,
                             PID_2005 = dpidstrk,
-                            pid_2009 = epid,
                             PID_2009 = epidstrk)
 
 #preparing the data set: ZA5321.dta------------------------------------------------
@@ -149,7 +145,7 @@ ZA5322_birth <- ZA5322_birth %>% select(lfdn,monat)
 
 #joining the data set ZA5770 and 5770_birth----------------------------------------
 
-ZA5770_full <- full_join(ZA5770, ZA5770_birth, by = "lfdn", na_matches = "never")
+ZA5770_full <- left_join(ZA5770, ZA5770_birth, by = "lfdn", na_matches = "never")
 
 #joining month and year------------------------------------------------------------
 
@@ -157,14 +153,16 @@ ZA5770_full$jahr <- as_factor(ZA5770_full$jahr)
 
 ZA5770_full <- ZA5770_full %>% unite(month_year, monat, jahr, sep = "-") %>% 
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
-  mutate(month_year = as.Date(month_year))
+  mutate(month_year = as.Date(month_year)) %>% 
+  select(lfdn, month_year, PID_2013, PID_2017)
 
-
+ZA5770_full$PID_2013 <- as.numeric(ZA5770_full$PID_2013)
+ZA5770_full$PID_2017 <- as.numeric(ZA5770_full$PID_2017)
 
 #joining data set ZA5320 and ZA5320_birth------------------------------------------
 
 ZA5320_birth <- ZA5320_birth %>% rename(lfdn = id)
-ZA5320_full <- full_join(ZA5320, ZA5320_birth, by = "lfdn", na_matches = "never")
+ZA5320_full <- left_join(ZA5320, ZA5320_birth, by = "lfdn", na_matches = "never")
 
 #joining month and year------------------------------------------------------------
 
@@ -172,13 +170,16 @@ ZA5320_full$jahr <- as_factor(ZA5320_full$cjahr)
 
 ZA5320_full <- ZA5320_full %>% unite(month_year, monat, cjahr, sep = "-") %>% 
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
-  mutate(month_year = as.Date(month_year))
+  mutate(month_year = as.Date(month_year)) %>% 
+  select(-jahr)
 
-
+ZA5320_full$PID_2002 <- as.numeric(ZA5320_full$PID_2002)
+ZA5320_full$PID_2005 <- as.numeric(ZA5320_full$PID_2005)
+ZA5320_full$PID_2009 <- as.numeric(ZA5320_full$PID_2009)
 
 #joining data set ZA5321 and ZA5321_birth------------------------------------------
 
-ZA5321_full <- full_join(ZA5321, ZA5321_birth, by = "lfdn", na_matches = "never")
+ZA5321_full <- left_join(ZA5321, ZA5321_birth, by = "lfdn", na_matches = "never")
 
 #joining month and year------------------------------------------------------------
 
@@ -188,11 +189,15 @@ ZA5321_full <- ZA5321_full %>% unite(month_year, monat, jahr, sep = "-") %>%
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
   mutate(month_year = as.Date(month_year))
 
-
+ZA5321_full$PID_2005 <- as.numeric(ZA5321_full$PID_2005)
+ZA5321_full$PID_2007 <- as.numeric(ZA5321_full$PID_2007)
+ZA5321_full$PID_2009 <- as.numeric(ZA5321_full$PID_2009)
+ZA5321_full$PID_2011 <- as.numeric(ZA5321_full$PID_2011)
+ZA5321_full$PID_2013 <- as.numeric(ZA5321_full$PID_2013)
 
 #joining ZA5322 and ZA5322_birth---------------------------------------------------
 
-ZA5322_full <- full_join(ZA5322, ZA5322_birth, by = "lfdn", na_matches = "never")
+ZA5322_full <- left_join(ZA5322, ZA5322_birth, by = "lfdn", na_matches = "never")
 
 #joining month and year------------------------------------------------------------
 
@@ -201,6 +206,9 @@ ZA5322_full$jahr <- as_factor(ZA5322_full$jahr)
 ZA5322_full <- ZA5322_full %>% unite(month_year, monat, jahr, sep = "-") %>% 
   mutate(month_year = as.yearmon(month_year, "%m-%Y")) %>% 
   mutate(month_year = as.Date(month_year))
+
+ZA5322_full$PID_2011 <- as.numeric(ZA5322_full$PID_2011)
+ZA5322_full$PID_2013 <- as.numeric(ZA5322_full$PID_2013)
 
 ###################################################################################
 
