@@ -33,7 +33,8 @@ ZA5770_RDD <- ZA5770_full %>%
       PID_2013 == 5 ~ "5",
       PID_2013 == -97 ~ "0"))
 
-ZA5770_RDD <- ZA5770_full %>% filter(month_year >= "1992-01-01" & month_year <= "1999-01-01")
+ZA5770_RDD <- ZA5770_RDD %>% filter(month_year >= "1993-01-01" & month_year <= "1999-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for PID_2017--------------------------------------------------------------
 
@@ -48,7 +49,8 @@ ZA5770_RDD2 <- ZA5770_full %>%
       PID_2017 == 5 ~ "5",
       PID_2017 == -97 ~ "0"))  
 
-ZA5770_RDD2 <- ZA5770_RDD2 %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
+ZA5770_RDD2 <- ZA5770_RDD2 %>% filter(month_year >= "1997-01-01" & month_year <= "1999-01-01") %>% 
+  select(lfdn, month_year, PID)
   
 ###################################################################################
 
@@ -59,7 +61,7 @@ ZA5770_RDD2 <- ZA5770_RDD2 %>% filter(month_year >= "1990-01-01" & month_year <=
 
 #dataset for RDD PID_2002----------------------------------------------------------
 
-ZA5320_RDD2 <- ZA5320_full %>%
+ZA5320_RDD <- ZA5320_full %>%
   select(lfdn, month_year, PID_2002) %>%
   mutate(
     PID = case_when(
@@ -70,7 +72,8 @@ ZA5320_RDD2 <- ZA5320_full %>%
       PID_2002 == 5 ~ "5",
       PID_2002 == -97 ~ "0"))  
 
-ZA5320_RDD <- ZA5320_full %>% filter(month_year >= "1982-01-01" & month_year <= "1986-01-01")
+ZA5320_RDD <- ZA5320_RDD %>% filter(month_year >= "1982-01-01" & month_year <= "1986-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2005----------------------------------------------------------
 
@@ -85,12 +88,13 @@ ZA5320_RDD2 <- ZA5321_full %>%
       PID_2005 == 5 ~ "5",
       PID_2005 == -97 ~ "0")) 
 
-ZA5320_RDD <- ZA5320_full %>% filter(month_year >= "1984-01-01" & month_year <= "1988-01-01")
+ZA5320_RDD2 <- ZA5320_RDD2 %>% filter(month_year >= "1985-01-01" & month_year <= "1989-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2009----------------------------------------------------------
 
-ZA5320_RDD2 <- ZA5320_full %>%
-  select(lfdn, month_year, PID_2002) %>%
+ZA5320_RDD3 <- ZA5320_full %>%
+  select(lfdn, month_year, PID_2009) %>%
   mutate(
     PID = case_when(
       PID_2009 == 1 ~ "1",
@@ -100,7 +104,8 @@ ZA5320_RDD2 <- ZA5320_full %>%
       PID_2009 == 5 ~ "5",
       PID_2009 == -97 ~ "0")) 
 
-ZA55320_RDD <- ZA5320_full %>% filter(month_year >= "1989-01-01" & month_year <= "1995-01-01")
+ZA5320_RDD3 <- ZA5320_RDD3 %>% filter(month_year >= "1989-01-01" & month_year <= "1993-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 ###################################################################################
 
@@ -122,11 +127,12 @@ ZA5321_RDD <- ZA5321_full %>%
       PID_2005 == 5 ~ "5",
       PID_2005 == -97 ~ "0"))
 
-ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
+ZA5321_RDD <- ZA5321_RDD %>% filter(month_year >= "1985-01-01" & month_year <= "1989-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2007----------------------------------------------------------
 
-ZA5321_RDD <- ZA5321_full %>%
+ZA5321_RDD2 <- ZA5321_full %>%
   select(lfdn, month_year, PID_2007) %>%
   mutate(
     PID = case_when(
@@ -137,11 +143,12 @@ ZA5321_RDD <- ZA5321_full %>%
       PID_2007 == 5 ~ "5",
       PID_2007 == -97 ~ "0"))
 
-ZA5321_RDD2 <- ZA5321_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
+ZA5321_RDD2 <- ZA5321_RDD2 %>% filter(month_year >= "1987-01-01" & month_year <= "1991-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2009----------------------------------------------------------
 
-ZA5321_RDD <- ZA5321_full %>%
+ZA5321_RDD3 <- ZA5321_full %>%
   select(lfdn, month_year, PID_2009) %>%
   mutate(
     PID = case_when(
@@ -152,11 +159,12 @@ ZA5321_RDD <- ZA5321_full %>%
       PID_2009 == 5 ~ "5",
       PID_2009 == -97 ~ "0"))
 
-ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
+ZA5321_RDD3 <- ZA5321_RDD3 %>% filter(month_year >= "1989-01-01" & month_year <= "1993-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2013----------------------------------------------------------
 
-ZA5321_RDD <- ZA5321_full %>%
+ZA5321_RDD4 <- ZA5321_full %>%
   select(lfdn, month_year, PID_2013) %>%
   mutate(
     PID = case_when(
@@ -167,7 +175,8 @@ ZA5321_RDD <- ZA5321_full %>%
       PID_2013 == 5 ~ "5",
       PID_2013 == -97 ~ "0"))
 
-ZA5321_RDD <- ZA5321_full %>% filter(month_year >= "1992-01-01")
+ZA5321_RDD4 <- ZA5321_RDD4 %>% filter(month_year >= "1993-01-01" & month_year <= "1997-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 ###################################################################################
 
@@ -189,12 +198,13 @@ ZA5322_RDD <- ZA5322_full %>%
       PID_2011 == 5 ~ "5",
       PID_2011 == -97 ~ "0"))
 
-ZA5322_RDD <- ZA5322_full %>% filter(month_year >= "1992-01-01")
+ZA5322_RDD <- ZA5322_RDD %>% filter(month_year >= "1991-01-01" & month_year <= "1995-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 #dataset for RDD PID_2013----------------------------------------------------------
 
-ZA5322_RDD <- ZA5322_full %>%
-  select(lfdn, month_year, PID_2011) %>%
+ZA5322_RDD2 <- ZA5322_full %>%
+  select(lfdn, month_year, PID_2013) %>%
   mutate(
     PID = case_when(
       PID_2013 == 1 ~ "1",
@@ -204,7 +214,8 @@ ZA5322_RDD <- ZA5322_full %>%
       PID_2013 == 5 ~ "5",
       PID_2013 == -97 ~ "0"))
 
-ZA322_RDD2 <- ZA5322_full %>% filter(month_year >= "1990-01-01" & month_year <= "1993-01-01")
+ZA5322_RDD2 <- ZA5322_RDD2 %>% filter(month_year >= "1993-01-01" & month_year <= "1997-01-01") %>% 
+  select(lfdn, month_year, PID)
 
 ###################################################################################
 
@@ -215,9 +226,8 @@ ZA322_RDD2 <- ZA5322_full %>% filter(month_year >= "1990-01-01" & month_year <= 
 
 #Joining the different datasets
 
-
-
-
+RDD_PID <- bind_rows(ZA5770_RDD, ZA5770_RDD2, ZA5320_RDD, ZA5320_RDD2, ZA5320_RDD3,
+                     ZA5321_RDD, ZA5321_RDD2, ZA5321_RDD3, ZA5321_RDD3, ZA5321_RDD4)
 
 
 ###################################################################################
@@ -230,13 +240,18 @@ ZA322_RDD2 <- ZA5322_full %>% filter(month_year >= "1990-01-01" & month_year <= 
 #Saving the data set
 
 save(ZA5770_RDD, file = "data/ZA5770_RDD.RData")
-
 save(ZA5770_RDD2, file= "data/ZA5770_RDD2.RData")
 
 save(ZA5320_RDD, file = "data/ZA5320_RDD.RData")
+save(ZA5320_RDD2, file = "data/ZA5320_RDD2.RData")
+save(ZA5320_RDD3, file = "data/ZA5320_RDD3.RData")
 
 save(ZA5321_RDD, file = "data/ZA53201_RDD.RData")
+save(ZA5321_RDD2, file = "data/ZA53201_RDD2.RData")
+save(ZA5321_RDD3, file = "data/ZA53201_RDD3.RData")
+save(ZA5321_RDD4, file = "data/ZA53201_RDD4.RData")
 
 save(ZA5322_RDD, file = "data/ZA5322_RDD.RData")
-
+save(ZA5322_RDD2, file = "data/ZA5322_RDD2.RData")
 ###################################################################################
+
