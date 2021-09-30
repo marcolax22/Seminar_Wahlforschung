@@ -254,6 +254,7 @@ RDD_PID <- bind_rows(ZA5770_RDD, ZA5770_RDD2, ZA5320_RDD, ZA5320_RDD2, ZA5320_RD
   select(-month_year)
 
 RDD_PID$month <- as.numeric(RDD_PID$month)
+RDD_PID$PID <- as.numeric(RDD_PID$PID)
 
 #Datasets with different Election years missing for robustness check
 
